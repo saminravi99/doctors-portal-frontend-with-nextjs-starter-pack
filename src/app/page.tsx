@@ -1,6 +1,9 @@
-import Image from "next/image";
+import PublicHeader from "@/components/view/Header/PublicHeader";
 
 export default function Home() {
-  return new Error();
-  return <h1>hello welcome to nextjs app router</h1>;
+  return (
+    <>
+      <PublicHeader />
+    </>
+  );
 }
