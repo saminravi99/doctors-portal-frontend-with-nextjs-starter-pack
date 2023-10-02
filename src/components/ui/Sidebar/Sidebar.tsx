@@ -2,68 +2,69 @@
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { onSidebarClose } from "@/redux/slices/sidebarSlice";
 import { Drawer, Layout, Menu } from "antd";
-import Sider from "antd/es/layout/Sider";
-import { Content } from "antd/es/layout/layout";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
+const { Content, Sider } = Layout;
 
 const Sidebar = ({
   children,
   items,
 }: {
   children: React.ReactNode;
-  items: {
-    key: string;
-    label: string;
-    href: string;
-  }[];
+  items: { key: string; label: string; href: string }[];
 }) => {
-  const pathname = usePathname();
   const open = useAppSelector((state) => state.sidebar.open);
   const dispatch = useAppDispatch();
+  const pathname = usePathname();
+  const getSelectedKey = () => {
+    return items.find((item) => item.href === pathname)?.key || "";
+  };
   return (
-    <Layout className="flex-row">
-      <Sider width={250} className="min-h-screen bg-gray-300 lg:block hidden">
-        <Menu
-          className="bg-transparent px-3 py-1 "
-          disabledOverflow
-          theme="light"
-          mode="inline"
-          selectedKeys={[items.find((item) => item.href === pathname)?.key!]}
-        >
-          {items?.map((item) => {
-            return (
-              <Menu.Item key={item.key}>
-                <Link href={item.href}>{item.label}</Link>
-              </Menu.Item>
-            );
-          })}
-        </Menu>
-      </Sider>
-      <Content className="bg-white p-4">{children}</Content>
-      <Drawer
-        className="lg:hidden"
-        title="Sidebar"
-        placement="left"
-        onClose={() => dispatch(onSidebarClose())}
-        open={open}
-      >
-        <Menu
-          disabledOverflow
-          theme="light"
-          mode="vertical"
-          selectedKeys={[items.find((item) => item.href === pathname)?.key!]}
-        >
-          {items?.map((item) => {
-            return (
-              <Menu.Item key={item.key}>
-                <Link href={item.href}>{item.label}</Link>
-              </Menu.Item>
-            );
-          })}
-        </Menu>
-      </Drawer>
+    <Layout>
+      <Content>
+        <Layout className="lg:flex hidden">
+          <Sider width={250} className="min-h-screen bg-gray-300">
+            <Menu
+              className="h-full px-3 bg-transparent py-1 bg-gray-300"
+              mode="inline"
+              defaultSelectedKeys={[getSelectedKey()]}
+              selectedKeys={[getSelectedKey()]}
+            >
+              {items?.map((item) => (
+                <Menu.Item key={item.key}>
+                  <Link href={item.href}>{item.label}</Link>
+                </Menu.Item>
+              ))}
+            </Menu>
+          </Sider>
+          <Content className="bg-white p-4">{children}</Content>
+        </Layout>
+        <Layout className="lg:hidden">
+          <Drawer
+            title="Dashboard"
+            placement="left"
+            onClose={() => {
+              dispatch(onSidebarClose());
+            }}
+            visible={open}
+          >
+            <Menu
+              className="h-full px-3"
+              mode="inline"
+              defaultSelectedKeys={["1"]}
+              defaultOpenKeys={["sub1"]}
+            >
+              {items?.map((item) => (
+                <Menu.Item key={item.key}>
+                  <Link href={item.href}>{item.label}</Link>
+                </Menu.Item>
+              ))}
+            </Menu>
+          </Drawer>
+          <Content className="bg-white p-4">{children}</Content>
+        </Layout>
+      </Content>
     </Layout>
   );
 };

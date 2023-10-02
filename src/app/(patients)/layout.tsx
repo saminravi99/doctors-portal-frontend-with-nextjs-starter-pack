@@ -1,14 +1,17 @@
-import PatientHeader from "@/components/view/Header/PatientNavbar";
-import PatientSidebar from "@/components/view/Sidebar/PatientSidebar";
-import React from "react";
+import PatientHeader from "@/components/view/Header/PatientHeader/PatientHeader";
+import PatientSidebar from "@/components/view/Sidebar/PatientSidebar/PatientSidebar";
 
-const PatientLayout = ({ children }: { children: React.ReactNode }) => {
+export default function PatientLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <div>
       <PatientHeader />
-      <PatientSidebar>{children}</PatientSidebar>
+      <div className="min-h-[calc(100vh-64px)]">
+        <PatientSidebar>{children}</PatientSidebar>
+      </div>
     </div>
   );
-};
-
-export default PatientLayout;
+}

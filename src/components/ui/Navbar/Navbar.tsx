@@ -1,27 +1,24 @@
 "use client";
-import { useAppDispatch } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { showSidebarDrawer } from "@/redux/slices/sidebarSlice";
 import { MenuOutlined } from "@ant-design/icons";
-import { Button, Drawer, Layout, Menu } from "antd";
-import { Content } from "antd/es/layout/layout";
-import Title from "antd/es/typography/Title";
+import { Button, Drawer, Layout, Menu, Typography } from "antd";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 
-const { Header } = Layout;
+const { Header, Content } = Layout;
+const { Title } = Typography;
 
 const Navbar = ({
   items,
+  hasSider,
 }: {
-  items: {
-    key: string;
-    label: string;
-    href: string;
-  }[];
+  items: { key: string; label: string; href: string }[];
+  hasSider?: boolean;
 }) => {
+  const pathname = usePathname();
   const [open, setOpen] = useState(false);
-
   const showDrawer = () => {
     setOpen(true);
   };
@@ -29,19 +26,33 @@ const Navbar = ({
   const onClose = () => {
     setOpen(false);
   };
-  const pathname = usePathname();
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <Layout className="layout">
       <Header className="flex items-center">
-        <Content className="flex gap-4">
+        {hasSider && (
           <Button
-          onClick={() => dispatch(showSidebarDrawer())}
-           type="primary" className="lg:hidden">
+            type="primary"
+            className="lg:hidden"
+            onClick={() => {
+              dispatch(showSidebarDrawer());
+            }}
+          >
             <MenuOutlined />
           </Button>
+        )}
+        <Content>
           <Link href="/">
-            <Title level={3} className="text-white mb-0">
+            <Title
+              className={`m-0 text-white ${
+                hasSider && "text-center lg:text-left"
+              }`}
+            >
               Doctors Portal
             </Title>
           </Link>
@@ -51,42 +62,30 @@ const Navbar = ({
           disabledOverflow
           theme="dark"
           mode="horizontal"
-          selectedKeys={[items.find((item) => item.href === pathname)?.key!]}
-        //   selectedKeys={[pathname]}
+          selectedKeys={[pathname]}
         >
-          {items?.map((item) => {
-            return (
-              <Menu.Item key={item.key}>
-                <Link href={item.href}>{item.label}</Link>
-              </Menu.Item>
-            );
-          })}
+          {items?.map((item) => (
+            <Menu.Item key={item.href}>
+              <Link href={item.href}>{item.label}</Link>
+            </Menu.Item>
+          ))}
         </Menu>
 
-        <Button onClick={showDrawer} type="primary" className="lg:hidden">
+        <Button type="primary" className="lg:hidden" onClick={showDrawer}>
           <MenuOutlined />
         </Button>
-
-        <Drawer
-          className="lg:hidden"
-          title="Menu"
-          placement="right"
-          onClose={onClose}
-          open={open}
-        >
+        <Drawer title="Menu" placement="right" onClose={onClose} visible={open}>
           <Menu
-            disabledOverflow
             theme="light"
             mode="vertical"
-            selectedKeys={[items.find((item) => item.href === pathname)?.key!]}
+            selectedKeys={[pathname]}
+            style={{ borderRight: 0 }}
           >
-            {items?.map((item) => {
-              return (
-                <Menu.Item key={item.key}>
-                  <Link href={item.href}>{item.label}</Link>
-                </Menu.Item>
-              );
-            })}
+            {items?.map((item) => (
+              <Menu.Item key={item.href}>
+                <Link href={item.href}>{item.label}</Link>
+              </Menu.Item>
+            ))}
           </Menu>
         </Drawer>
       </Header>

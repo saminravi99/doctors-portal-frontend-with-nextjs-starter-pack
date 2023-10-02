@@ -1,12 +1,9 @@
-import React from "react";
-interface Props {
-  params: {
-    adminId: number;
-  };
-}
-const Admins = (props: Props) => {
-  const { adminId } = props.params;
-  return <div>Admin number {adminId}</div>;
-};
+import React from 'react'
 
-export default Admins;
+const SingleAdminByAdmin = () => {
+  return (
+    <div>SingleAdminByAdmin</div>
+  )
+}
+
+export default SingleAdminByAdmin

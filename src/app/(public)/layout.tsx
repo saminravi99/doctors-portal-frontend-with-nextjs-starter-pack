@@ -1,13 +1,14 @@
-import PublicHeader from "@/components/view/Header/PublicHeader";
-import React from "react";
+import PublicHeader from "@/components/view/Header/PublicHeader/PublicHeader";
 
-const PublicLayout = ({ children }: { children: React.ReactNode }) => {
+export default function PublicLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <div>
       <PublicHeader />
-      {children}
+      <div className="min-h-[calc(100vh-64px)]">{children}</div>
     </div>
   );
-};
-
-export default PublicLayout;
+}
