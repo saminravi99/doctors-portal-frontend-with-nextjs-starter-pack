@@ -1,9 +1,12 @@
-import React from 'react'
+import CreateDoctorForm from "@/components/view/Admin/Form";
+import React from "react";
 
 const CreateDoctorByAdmin = () => {
   return (
-    <div>CreateDoctorByAdmin</div>
-  )
-}
+    <div>
+      <CreateDoctorForm />
+    </div>
+  );
+};
 
-export default CreateDoctorByAdmin
+export default CreateDoctorByAdmin;
