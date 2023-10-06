@@ -5,11 +5,18 @@ import React from "react";
 import { columns } from "./columns.doctors";
 import { getAllDoctors } from "@/services/doctors/get-all-doctors";
 import { Doctor } from "@/interfaces/doctor.interfaces";
+import SearchFilter from "@/components/view/Admin/SearchFilter";
 
-const AllDoctorByAdmin = async () => {
-  const data: any = await getAllDoctors();
+const AllDoctorByAdmin = async (props: {
+  searchParams: {
+    searchTerm: string;
+  };
+}) => {
+  console.log(props);
+  const data: any = await getAllDoctors(props.searchParams);
   return (
     <AdminTable title="All Doctors">
+      <SearchFilter />
       <Table<Doctor> columns={columns} data={data} />
     </AdminTable>
   );
