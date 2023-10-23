@@ -12,7 +12,6 @@ const AllDoctorByAdmin = async (props: {
     searchTerm: string;
   };
 }) => {
-  console.log(props);
   const data: any = await getAllDoctors(props.searchParams);
   return (
     <AdminTable title="All Doctors">

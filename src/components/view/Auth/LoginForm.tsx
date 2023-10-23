@@ -20,6 +20,7 @@ const LoginForm: React.FC = () => {
     });
     // console.log(result, "result");
     if (result?.ok && !result.error) {
+      router.refresh();
       router.push("/");
     }
   };

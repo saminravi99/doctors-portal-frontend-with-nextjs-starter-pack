@@ -2,7 +2,7 @@ import PublicCard from "@/components/view/Public/PublicCard";
 import Link from "next/link";
 
 const AvailableServicePublic = async () => {
-  const res = await fetch("http://localhost:5000/api/v1/available-services", {
+  const res = await fetch(`${process.env.BACKEND_URL}/available-services`, {
     // cache: "no-cache",
     next: {
       revalidate: 24 * 60 * 60, // time based revalidation
