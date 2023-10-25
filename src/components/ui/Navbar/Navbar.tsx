@@ -1,9 +1,9 @@
 "use client";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { useAppDispatch } from "@/redux/hooks";
 import { showSidebarDrawer } from "@/redux/slices/sidebarSlice";
 import { MenuOutlined } from "@ant-design/icons";
 import { Button, Drawer, Layout, Menu, Typography } from "antd";
-import { signOut, useSession } from "next-auth/react";
+import { signOut } from "next-auth/react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -80,8 +80,9 @@ const Navbar = ({
               type="primary"
               onClick={() => {
                 signOut({
-                  callbackUrl: "/login",
+                  redirect: false,
                 });
+                router.push("/login");
               }}
             >
               Sign Out
