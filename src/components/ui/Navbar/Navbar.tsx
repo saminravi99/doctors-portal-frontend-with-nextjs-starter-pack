@@ -79,7 +79,9 @@ const Navbar = ({
             <Button
               type="primary"
               onClick={() => {
-                signOut();
+                signOut({
+                  callbackUrl: "/login",
+                });
               }}
             >
               Sign Out
