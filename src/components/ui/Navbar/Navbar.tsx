@@ -79,10 +79,7 @@ const Navbar = ({
             <Button
               type="primary"
               onClick={() => {
-                signOut({
-                  redirect: false,
-                });
-                router.push(`${process.env.NEXT_PUBLIC_FRONTEND_URL}/login`);
+                signOut();
               }}
             >
               Sign Out
