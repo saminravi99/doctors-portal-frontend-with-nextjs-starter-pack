@@ -82,7 +82,7 @@ const Navbar = ({
                 signOut({
                   redirect: false,
                 });
-                router.push("/login");
+                router.push(`${process.env.NEXT_PUBLIC_FRONTEND_URL}/login`);
               }}
             >
               Sign Out
